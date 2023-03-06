@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer, createContext } from 'react';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import {
@@ -7,6 +7,10 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
+import { userReducer, defaultUsers } from './reducers/userReducer';
+import './styling/classedstyles.scss';
+
+export const UserContext = createContext();
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,7 +22,23 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return (<RouterProvider router={router} />);
+  const [users, dispatch] = useReducer(userReducer, defaultUsers);
+  const value = {
+    users,
+    addUsers: ({ user_id, user_first_name, user_last_name }) => {
+      dispatch({
+        type: 'new',
+        id: user_id,
+        firstName: user_first_name,
+        lastName: user_last_name
+      });
+    }
+  }
+  return (
+    <UserContext.Provider value={value}>
+      <RouterProvider router={router} />
+    </UserContext.Provider>
+  );
 }
 
 export default App;

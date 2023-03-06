@@ -1,10 +1,11 @@
 import React from 'react';
 
-const TextInput = (props) => {
-    const { value, placeholder, disabled } = props;
-    return (<span>
-        <input type="text" value={value} placeholder={placeholder} disabled={disabled} />
-    </span>)
-}
+const TextInput = ({ value, id, type, placeholder, disabled, onChange }) => {
+    return (
+        <span className='flex p-2'>
+            <input type={type || "text"} id={id} value={value} placeholder={placeholder} disabled={disabled} onChange={onChange} />
+        </span>
+    )
+};
 
 export default TextInput;
